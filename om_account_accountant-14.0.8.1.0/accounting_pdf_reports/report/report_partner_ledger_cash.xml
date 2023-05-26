@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_partner_ledger_cash">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <t t-set="data_report_margin_top" t-value="12"/>
+                <t t-set="data_report_header_spacing" t-value="9"/>
+                <t t-set="data_report_dpi" t-value="110"/>
+                <div class="page">
+                    <h2>Partner Ledger Cash In/Out Report</h2>
+                    <div class="row">
+                        <div class="col-3">
+                            <strong>Company:</strong>
+                            <p t-esc="res_company.name"/>
+                        </div>
+                    </div>
+
+                    <table class="table table-sm table-reports">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction Type</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <t t-foreach="docs" t-as="o">
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">
+                                        <strong t-esc="o.ref"/>
+                                        -
+                                        <strong t-esc="o.name"/>
+                                    </td>
+                                </tr>
+                                <tr t-foreach="lines(data, o)" t-as="line">
+                                    <td>
+                                        <span t-esc="line['date']"/>
+                                    </td>
+                                    <td>
+                                        <t t-if="line['debit'] == 0.00">
+                                            <p>Credit</p>
+                                        </t>
+                                        <t t-if="line['credit'] == 0.00">
+                                            <p>Debit</p>
+                                        </t>
+                                    </td>
+
+                                    <td>
+                                        <span t-esc="line['displayed_name']"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <t t-if="line['credit'] == 0.00">
+                                            <span t-esc="line['debit']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </t>
+                                        <t t-if="line['debit'] == 0.00">
+                                            <span t-esc="line['credit']"
+                                                  t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

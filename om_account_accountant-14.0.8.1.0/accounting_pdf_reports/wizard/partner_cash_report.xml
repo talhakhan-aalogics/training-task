@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_partner_cash_inout_view" model="ir.ui.view">
+        <field name="name">Partner Cash In/Out View</field>
+        <field name="model">account.report.partner.cash</field>
+        <field name="arch" type="xml">
+            <form string="Report Options">
+                <group col="4">
+                    <field name="partners" widget="many2one_tags" options="{'no_open': True, 'no_create': True}"/>
+                    <newline/>
+<!--                    <field name="role" />-->
+                </group>
+                <group>
+                    <t> <strong>NOTE: </strong>If you won't select any partner then it would generate available records for all partners.</t>
+                </group>
+                <footer>
+                    <button name="check_report" string="Print" type="object" default_focus="1" class="oe_highlight"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_account_partner_cash_inout_view" model="ir.actions.act_window">
+        <field name="name">Partner Cash In/Out Report</field>
+        <field name="res_model">account.report.partner.cash</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="account_partner_cash_inout_view"/>
+        <field name="context"></field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="partner_cash_inout_ledger_report_menu"
+              name="Partner Cash In/Out Ledger"
+              sequence="5"
+              parent="menu_finance_partner_reports"
+              action="action_account_partner_cash_inout_view" />
+</odoo>

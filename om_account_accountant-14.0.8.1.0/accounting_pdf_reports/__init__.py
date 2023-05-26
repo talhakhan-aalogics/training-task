@@ -2,6 +2,7 @@
 
 from . import wizard
 from . import report
+from . import tests
 
 
 def _pre_init_clean_m2m_models(cr):
